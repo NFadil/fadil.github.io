@@ -157,10 +157,206 @@ require.config({ paths: { vs: 'https://unpkg.com/monaco-editor@0.45.0/min/vs' }}
 require(['vs/editor/editor.main'], function () {
   monaco.editor.create(document.getElementById('editorContainer'), {
     value: `// Contoh kode
+// Contoh kode
 
 function helloWorld() {
   console.log("Hello Sahabat Fadil VS Code Style!");
 }
+const { Op, fn, col } = require('sequelize');
+const dayjs = require('dayjs');
+
+exports.index = async (req, res) => {
+  const userId = req.user.id;
+
+  // =========================
+  // GROUP USER
+  // =========================
+  const userGroups = await ChecklistGroupAccess.findAll({
+    where: { user_id: userId },
+    attributes: ['group_id'],
+    raw: true
+  });
+
+  const groupIds = userGroups.map(g => g.group_id);
+
+  const groupUsers = await ChecklistGroupAccess.findAll({
+    where: { group_id: { [Op.in]: groupIds } },
+    attributes: ['user_id'],
+    raw: true
+  });
+
+  const groupUserIds = groupUsers.map(u => u.user_id);
+
+  const now = dayjs();
+  const today = now.format('YYYY-MM-DD');
+  const todayDay = now.date();
+  const todayWeek = now.isoWeekday();
+
+  // =========================
+  // LAST ANSWERS
+  // =========================
+  const lastAnswersRaw = await ChecklistAnswer.findAll({
+    where: { user_id: { [Op.in]: groupUserIds } },
+    attributes: [
+      'category_id',
+      [fn('MAX', col('created_at')), 'last_filled']
+    ],
+    group: ['category_id'],
+    raw: true
+  });
+
+  const lastAnswers = {};
+  lastAnswersRaw.forEach(r => {
+    lastAnswers[r.category_id] = r.last_filled;
+  });
+
+  // =========================
+  // GROUP LOCATION
+  // =========================
+  const groupLocationsRaw = await ChecklistGroup.findAll({
+    where: { id: { [Op.in]: groupIds } },
+    attributes: ['id', 'location_id'],
+    raw: true
+  });
+
+  const groupLocations = {};
+  groupLocationsRaw.forEach(g => {
+    groupLocations[g.id] = g.location_id;
+  });
+
+  // =========================
+  // CATEGORY
+  // =========================
+  const categories = await ChecklistCategory.findAll({
+    include: [
+      {
+        model: ChecklistCategoryGroup,
+        where: { group_id: { [Op.in]: groupIds } }
+      },
+      {
+        model: ChecklistPeriod
+      },
+      {
+        model: ChecklistPeriodRules,
+        required: false
+      }
+    ],
+    where: {
+      period_start: { [Op.lte]: today },
+      [Op.or]: [
+        { period_end: null },
+        { period_end: { [Op.gte]: today } }
+      ]
+    }
+  });
+
+  // =========================
+  // ASSET COUNT
+  // =========================
+  const assetCounts = await Asset.findAll({
+    where: { is_disposal: 0 },
+    attributes: [
+      'id_category',
+      'id_location',
+      [fn('COUNT', col('*')), 'total']
+    ],
+    group: ['id_category', 'id_location'],
+    raw: true
+  });
+
+-
+  // =========================
+  // MAX FILL
+  // =========================
+  categories.forEach(cat => {
+    if (!cat.category_asset_id) {
+      cat.dataValues.max_fill = 1;
+      return;
+    }
+
+    const groupId = cat.ChecklistCategoryGroups?.[0]?.group_id;
+    const locationId = groupLocations[groupId];
+
+ 
+  });
+
+  // =========================
+  // FILL COUNTS
+  // =========================
+  const answers = await ChecklistAnswer.findAll({
+    where: {
+      user_id: { [Op.in]: groupUserIds },
+      fill_key: { [Op.ne]: null }
+    },
+    include: [
+      {
+        model: ChecklistQuestion,
+        include: [
+          {
+            model: ChecklistCategory,
+            include: [ChecklistPeriod]
+          }
+        ]
+      }
+    ]
+  });
+
+  const fillCounts = {};
+
+  answers.forEach(a => {
+    const cat = a.ChecklistQuestion.ChecklistCategory;
+    const period = cat.ChecklistPeriod.period_name;
+
+    const created = dayjs(a.created_at);
+
+    let valid = false;
+
+    if (period === 'daily') {
+      valid = created.format('YYYY-MM-DD') === today;
+    }
+
+    if (period === 'weekly') {
+      valid = created.isoWeek() === now.isoWeek();
+    }
+
+    if (period === 'monthly') {
+      valid = created.month() === now.month() && created.year() === now.year();
+    }
+
+    if (valid) {
+      fillCounts[cat.id] = (fillCounts[cat.id] || 0) + 1;
+    }
+  });
+
+  // =========================
+  // FILTER FINAL
+  // =========================
+  const finalCategories = categories.filter(cat => {
+    const filled = fillCounts[cat.id] || 0;
+
+    if (filled >= (cat.dataValues.max_fill || 1)) return false;
+
+    const period = cat.ChecklistPeriod.period_name;
+
+    if (period === 'daily') return true;
+
+    if (period === 'weekly') {
+      if (!cat.start_day_of_week) return true;
+      return todayWeek >= cat.start_day_of_week && todayWeek <= cat.end_day_of_week;
+    }
+
+    if (period === 'monthly') {
+      if (!cat.start_day_of_month) return true;
+      return todayDay >= cat.start_day_of_month && todayDay <= cat.end_day_of_month;
+    }
+
+    return false;
+  });
+
+  return res.render('checklist/category', {
+    categories: finalCategories
+  });
+};
 `,
     language: 'javascript',
     theme: 'vs-dark',
