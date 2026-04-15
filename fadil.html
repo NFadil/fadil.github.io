@@ -225,6 +225,28 @@ toggleGlobal.onclick = () => {
 input.addEventListener('keydown', e => {
   if (e.key === 'Enter') loadVideo(input.value);
 });
+
+document.addEventListener('keydown', (e) => {
+  // pastikan tidak mengganggu saat ngetik di input
+  if (document.activeElement === input) return;
+
+  if (e.code === 'NumpadAdd') {
+    width += 50;
+    resizeBox();
+  }
+
+  if (e.code === 'NumpadSubtract') {
+    width = Math.max(200, width - 50);
+    resizeBox();
+  }
+});
+// =========================
+// RIGHT CLICK = TOGGLE YOUTUBE
+// =========================
+document.addEventListener('contextmenu', (e) => {
+  e.preventDefault(); // matikan menu klik kanan browser
+  toggleGlobal.click(); // trigger tombol 🎬
+});
 </script>
 
 </body>
