@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Aim Trainer – Sens Valorant</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0d1114;
+        --fg: #e8eef0;
+        --mut: #8b979c;
+        --acc: #35d0ff;
+        --line: #26313a;
+        --panel: rgba(13, 17, 20, 0.78);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0d1114;
+          --fg: #e8eef0;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0d1114;
+        --fg: #e8eef0;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+        overflow: hidden;
+        user-select: none;
+      }
+      canvas {
+        display: block;
+        cursor: none;
+      }
+      #hud {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        display: none;
+        padding: env(safe-area-inset-top, 0px) 0 0;
+      }
+      .top {
+        position: absolute;
+        top: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--panel);
+        padding: 6px 26px;
+        display: flex;
+        gap: 30px;
+        font-size: 28px;
+        border-bottom: 2px solid var(--acc);
+      }
+      .top span {
+        color: var(--mut);
+        font-size: 18px;
+        margin-right: 6px;
+      }
+      #cross {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 0;
+        height: 0;
+        color: var(--cc, #35ff7a);
+      }
+      #cross i {
+        position: absolute;
+        background: currentColor;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+      }
+      #cross .d {
+        left: -1.5px;
+        top: -1.5px;
+        width: 3px;
+        height: 3px;
+      }
+      #cross .a {
+        left: -1px;
+        top: -9px;
+        width: 2px;
+        height: 6px;
+      }
+      #cross .b {
+        left: -1px;
+        top: 3px;
+        width: 2px;
+        height: 6px;
+      }
+      #cross .c {
+        top: -1px;
+        left: -9px;
+        height: 2px;
+        width: 6px;
+      }
+      #cross .e {
+        top: -1px;
+        left: 3px;
+        height: 2px;
+        width: 6px;
+      }
+      #big {
+        position: absolute;
+        top: 36%;
+        width: 100%;
+        text-align: center;
+        font-size: 64px;
+        font-weight: 700;
+        opacity: 0.9;
+      }
+      #ov {
+        position: fixed;
+        inset: 0;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(8, 11, 13, 0.92);
+        padding: env(safe-area-inset-top, 0px) 16px
+          env(safe-area-inset-bottom, 0px);
+        overflow: auto;
+      }
+      .in {
+        width: 100%;
+        max-width: 640px;
+        padding: 18px 0;
+      }
+      h1 {
+        font-size: clamp(40px, 8vw, 70px);
+        line-height: 0.92;
+        margin: 0 0 6px;
+        font-weight: 700;
+      }
+      p {
+        margin: 0 0 12px;
+        color: var(--mut);
+        font-size: 20px;
+        line-height: 1.3;
+      }
+      .modes {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 10px;
+        margin: 14px 0;
+      }
+      .mode {
+        font: inherit;
+        text-align: left;
+        background: #141b20;
+        color: var(--fg);
+        border: 1px solid var(--line);
+        border-top: 3px solid var(--acc);
+        padding: 12px 14px;
+        cursor: pointer;
+      }
+      .mode:hover,
+      .mode:focus-visible {
+        background: #1b252c;
+        outline: none;
+        border-color: var(--acc);
+      }
+      .mode b {
+        display: block;
+        font-size: 26px;
+      }
+      .mode small {
+        display: block;
+        color: var(--mut);
+        font-size: 17px;
+        line-height: 1.25;
+        margin-top: 4px;
+      }
+      .mode em {
+        display: block;
+        font-style: normal;
+        margin-top: 8px;
+        color: var(--acc);
+        font-size: 17px;
+      }
+      .set {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 10px;
+        margin: 8px 0;
+      }
+      label {
+        display: block;
+        font-size: 17px;
+        color: var(--mut);
+      }
+      input {
+        width: 100%;
+        font: inherit;
+        font-size: 24px;
+        background: #141b20;
+        color: var(--fg);
+        border: 1px solid var(--line);
+        padding: 4px 8px;
+      }
+      input[type="color"] {
+        padding: 0;
+        height: 38px;
+      }
+      #conv {
+        font-size: 19px;
+        color: var(--fg);
+        margin: 6px 0 0;
+      }
+      #res {
+        display: none;
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--acc);
+        padding: 12px 16px;
+        margin: 12px 0;
+        font-size: 24px;
+        line-height: 1.35;
+        background: #141b20;
+      }
+      #note {
+        color: #ffb15c;
+        font-size: 18px;
+        margin-top: 8px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hud">
+      <div class="top">
+        <div><span>Waktu</span><b id="t">60</b></div>
+        <div><span>Skor</span><b id="s">0</b></div>
+        <div><span>Akurasi</span><b id="a">0%</b></div>
+      </div>
+      <div id="big"></div>
+      <div id="cross">
+        <i class="d"></i><i class="a"></i><i class="b"></i><i class="c"></i
+        ><i class="e"></i>
+      </div>
+    </div>
+    <div id="ov">
+      <div class="in">
+        <h1>Aim Trainer</h1>
+        <p>
+          Latihan bidik dengan sensitivitas persis seperti Valorant. Masukkan
+          sens dan DPI kamu, pilih mode, lalu klik. (Full screen F11)
+        </p>
+        <div id="res"></div>
+        <div class="modes">
+          <button class="mode" data-m="grid">
+            <b>Gridshot</b
+            ><small>3 target aktif di grid 3×3. Tembak secepat mungkin.</small
+            ><em id="b-grid"></em>
+          </button>
+          <button class="mode" data-m="micro">
+            <b>Microflick</b
+            ><small>Target kecil muncul satu per satu. Latihan presisi.</small
+            ><em id="b-micro"></em>
+          </button>
+          <button class="mode" data-m="track">
+            <b>Tracking</b
+            ><small>Tahan klik kiri dan ikuti target yang bergerak.</small
+            ><em id="b-track"></em>
+          </button>
+        </div>
+        <div class="set">
+          <label
+            >Sens Valorant<input
+              id="sens"
+              type="number"
+              step="0.01"
+              min="0.01"
+              max="10"
+          /></label>
+          <label
+            >DPI mouse<input
+              id="dpi"
+              type="number"
+              step="50"
+              min="100"
+              max="32000"
+          /></label>
+          <label
+            >Durasi (detik)<input
+              id="dur"
+              type="number"
+              step="5"
+              min="10"
+              max="180"
+          /></label>
+          <label>Warna crosshair<input id="col" type="color" /></label>
+        </div>
+        <p id="conv"></p>
+        <p id="note">
+          Mouse lock tidak bisa aktif di sini. Buka halaman ini di tab sendiri,
+          lalu coba lagi.
+        </p>
+        <p>
+          Tekan Esc untuk menghentikan sesi. FOV horizontal 103° seperti
+          Valorant.
+        </p>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      (function () {
+        const $ = (id) => document.getElementById(id),
+          R = THREE;
+        let cfg = { sens: 0.4, dpi: 800, dur: 60, col: "#35ff7a" };
+        try {
+          const s = JSON.parse(localStorage.getItem("aim.cfg") || "null");
+          if (s) Object.assign(cfg, s);
+        } catch (e) {}
+        function save() {
+          try {
+            localStorage.setItem("aim.cfg", JSON.stringify(cfg));
+          } catch (e) {}
+        }
+        function best(m, v) {
+          try {
+            const k = "aim.best." + m,
+              o = +localStorage.getItem(k) || 0;
+            if (v != null && v > o) {
+              localStorage.setItem(k, v);
+              return v;
+            }
+            return o;
+          } catch (e) {
+            return 0;
+          }
+        }
+        function readCfg() {
+          cfg.sens = Math.max(0.01, +$("sens").value || 0.4);
+          cfg.dpi = Math.max(100, +$("dpi").value || 800);
+          cfg.dur = Math.max(10, +$("dur").value || 60);
+          cfg.col = $("col").value;
+          $("cross").style.setProperty("--cc", cfg.col);
+          const cm = (360 / (0.07 * cfg.sens) / cfg.dpi) * 2.54;
+          $("conv").innerHTML =
+            "eDPI <b>" +
+            Math.round(cfg.sens * cfg.dpi) +
+            "</b> · <b>" +
+            cm.toFixed(1) +
+            " cm</b> untuk putaran 360°";
+          save();
+        }
+        ["sens", "dpi", "dur", "col"].forEach((k) => {
+          $(k).value = cfg[k];
+          $(k).addEventListener("input", readCfg);
+        });
+        function bests() {
+          ["grid", "micro", "track"].forEach((m) => {
+            const b = best(m);
+            $("b-" + m).textContent = b ? "Terbaik: " + b : "Belum ada skor";
+          });
+        }
+        readCfg();
+        bests();
+
+        const renderer = new R.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+        renderer.setSize(innerWidth, innerHeight);
+        document.body.insertBefore(
+          renderer.domElement,
+          document.body.firstChild,
+        );
+        const scene = new R.Scene();
+        scene.background = new R.Color(0x0b0f12);
+        const cam = new R.PerspectiveCamera(
+          70,
+          innerWidth / innerHeight,
+          0.1,
+          100,
+        );
+        cam.rotation.order = "YXZ";
+        function fov() {
+          const a = innerWidth / innerHeight;
+          let v =
+            (2 * Math.atan(Math.tan((103 * Math.PI) / 360) / a) * 180) /
+            Math.PI;
+          cam.fov = Math.min(v, 100);
+          cam.aspect = a;
+          cam.updateProjectionMatrix();
+          renderer.setSize(innerWidth, innerHeight);
+        }
+        fov();
+        addEventListener("resize", fov);
+        scene.add(new R.HemisphereLight(0xbfe8ff, 0x1a2228, 0.9));
+        const pl = new R.PointLight(0xffffff, 0.7, 60);
+        pl.position.set(0, 6, 2);
+        scene.add(pl);
+        function gridTex(rep) {
+          const c = document.createElement("canvas");
+          c.width = c.height = 128;
+          const x = c.getContext("2d");
+          x.fillStyle = "#10171c";
+          x.fillRect(0, 0, 128, 128);
+          x.strokeStyle = "#223039";
+          x.lineWidth = 2;
+          x.strokeRect(1, 1, 126, 126);
+          const t = new R.CanvasTexture(c);
+          t.wrapS = t.wrapT = R.RepeatWrapping;
+          t.repeat.set(rep[0], rep[1]);
+          t.anisotropy = 8;
+          return t;
+        }
+        const WZ = -16;
+        const room = new R.Mesh(
+          new R.BoxGeometry(60, 24, 60),
+          new R.MeshStandardMaterial({
+            map: gridTex([30, 12]),
+            side: R.BackSide,
+            roughness: 1,
+          }),
+        );
+        room.position.set(0, 0, WZ + 30);
+        scene.add(room);
+        const tm = [];
+        function mat(c, e) {
+          return new R.MeshStandardMaterial({
+            color: c,
+            emissive: e,
+            roughness: 0.35,
+            metalness: 0.1,
+          });
+        }
+        const mBlue = mat(0x35d0ff, 0x0b5a78),
+          mHot = mat(0xffa43a, 0x7a3a00),
+          mOn = mat(0xfff2a8, 0x8a7a20);
+
+        let cm = "grid",
+          run = false,
+          delay = 0,
+          left = 0,
+          score = 0,
+          shots = 0,
+          hits = 0,
+          onT = 0,
+          rtSum = 0,
+          firing = false,
+          locked = false,
+          yaw = 0,
+          pitch = 0,
+          ac = null;
+        const ray = new R.Raycaster(),
+          ctr = new R.Vector2(0, 0),
+          fx = [],
+          GR = [];
+        for (let i = 0; i < 3; i++)
+          for (let j = 0; j < 3; j++) GR.push([(j - 1) * 3.6, (1 - i) * 3.6]);
+        function beep(f, d, v) {
+          if (!ac) return;
+          try {
+            const o = ac.createOscillator(),
+              g = ac.createGain();
+            o.frequency.value = f;
+            o.type = "sine";
+            g.gain.value = v;
+            g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + d);
+            o.connect(g);
+            g.connect(ac.destination);
+            o.start();
+            o.stop(ac.currentTime + d);
+          } catch (e) {}
+        }
+        function mk(r, m, x, y) {
+          const o = new R.Mesh(new R.SphereGeometry(r, 24, 18), m);
+          o.position.set(x, y, WZ + 1);
+          o.userData = { r: r, t0: performance.now() };
+          scene.add(o);
+          tm.push(o);
+          return o;
+        }
+        function pop(p, c) {
+          const o = new R.Mesh(
+            new R.SphereGeometry(0.4, 10, 8),
+            new R.MeshBasicMaterial({
+              color: c,
+              transparent: true,
+              opacity: 0.8,
+            }),
+          );
+          o.position.copy(p);
+          scene.add(o);
+          fx.push({ o: o, t: 0 });
+        }
+        function clearAll() {
+          tm.forEach((o) => scene.remove(o));
+          tm.length = 0;
+        }
+        function spawnGrid() {
+          const used = tm.map((o) => o.userData.g);
+          let k;
+          do {
+            k = Math.floor(Math.random() * 9);
+          } while (used.includes(k));
+          const o = mk(0.62, mBlue, GR[k][0], GR[k][1]);
+          o.userData.g = k;
+        }
+        function spawnMicro() {
+          mk(
+            0.26,
+            mBlue,
+            (Math.random() - 0.5) * 18,
+            (Math.random() - 0.5) * 9,
+          );
+        }
+        let tv = { x: 0, y: 0, t: 0 };
+        function spawnTrack() {
+          const o = mk(0.75, mHot, 0, 0);
+          tv = { x: 3, y: 1, t: 1 };
+          return o;
+        }
+
+        function setup(m) {
+          cm = m;
+          clearAll();
+          score = shots = hits = 0;
+          onT = rtSum = 0;
+          left = cfg.dur;
+          delay = 1.5;
+          yaw = 0;
+          pitch = 0;
+          if (m === "grid") {
+            spawnGrid();
+            spawnGrid();
+            spawnGrid();
+          } else if (m === "micro") spawnMicro();
+          else spawnTrack();
+        }
+        function lock() {
+          const c = renderer.domElement;
+          try {
+            const p = c.requestPointerLock({ unadjustedMovement: true });
+            if (p && p.catch)
+              p.catch(() => {
+                try {
+                  c.requestPointerLock();
+                } catch (e) {}
+              });
+          } catch (e) {
+            try {
+              c.requestPointerLock();
+            } catch (_) {}
+          }
+        }
+        document.querySelectorAll(".mode").forEach(
+          (b) =>
+            (b.onclick = () => {
+              try {
+                ac =
+                  ac ||
+                  new (window.AudioContext || window.webkitAudioContext)();
+              } catch (e) {}
+              $("note").style.display = "none";
+              $("res").style.display = "none";
+              setup(b.dataset.m);
+              $("ov").style.display = "none";
+              $("hud").style.display = "block";
+              run = true;
+              lock();
+            }),
+        );
+        document.addEventListener("pointerlockerror", () => {
+          $("note").style.display = "block";
+          stop(false);
+        });
+        document.addEventListener("pointerlockchange", () => {
+          locked = document.pointerLockElement === renderer.domElement;
+          if (!locked && run) stop(false);
+        });
+        function stop(done) {
+          const was = run;
+          run = false;
+          firing = false;
+          $("hud").style.display = "none";
+          $("ov").style.display = "flex";
+          if (document.exitPointerLock && document.pointerLockElement)
+            document.exitPointerLock();
+          if (done && was) {
+            const acc =
+              cm === "track"
+                ? Math.round((onT / cfg.dur) * 100)
+                : shots
+                  ? Math.round((hits / shots) * 100)
+                  : 0;
+            const nb = best(cm, score) === score && score > 0;
+            $("res").innerHTML =
+              "<b>" +
+              { grid: "Gridshot", micro: "Microflick", track: "Tracking" }[cm] +
+              "</b>: skor <b>" +
+              score +
+              "</b>" +
+              (nb ? " · rekor baru" : "") +
+              "<br>" +
+              (cm === "track"
+                ? "Waktu di target " + onT.toFixed(1) + " dtk (" + acc + "%)"
+                : "Kena " +
+                  hits +
+                  " / " +
+                  shots +
+                  " tembakan · akurasi " +
+                  acc +
+                  "%" +
+                  (hits
+                    ? " · rata-rata " +
+                      Math.round(rtSum / hits) +
+                      " ms per target"
+                    : ""));
+            $("res").style.display = "block";
+            bests();
+          }
+        }
+        document.addEventListener("mousemove", (e) => {
+          if (!run || !locked) return;
+          const k = (cfg.sens * 0.07 * Math.PI) / 180;
+          yaw -= e.movementX * k;
+          pitch = Math.max(-1.55, Math.min(1.55, pitch - e.movementY * k));
+        });
+        document.addEventListener("mousedown", (e) => {
+          if (!run || e.button !== 0 || delay > 0) return;
+          firing = true;
+          if (cm === "track") return;
+          shots++;
+          ray.setFromCamera(ctr, cam);
+          const h = ray.intersectObjects(tm)[0];
+          if (h) {
+            const o = h.object;
+            hits++;
+            score += 100;
+            rtSum += performance.now() - o.userData.t0;
+            pop(o.position, 0xffffff);
+            scene.remove(o);
+            tm.splice(tm.indexOf(o), 1);
+            beep(900, 0.08, 0.25);
+            if (cm === "grid") spawnGrid();
+            else spawnMicro();
+          } else {
+            score = Math.max(0, score - 10);
+            beep(160, 0.06, 0.15);
+          }
+        });
+        document.addEventListener("mouseup", () => (firing = false));
+
+        const clk = new R.Clock();
+        function loop() {
+          requestAnimationFrame(loop);
+          const dt = Math.min(clk.getDelta(), 0.05);
+          if (run) {
+            cam.rotation.set(pitch, yaw, 0);
+            if (delay > 0) {
+              delay -= dt;
+              $("big").textContent = delay > 0 ? "Siap…" : "";
+            } else {
+              left -= dt;
+              if (cm === "track" && tm[0]) {
+                const o = tm[0];
+                tv.t -= dt;
+                if (tv.t <= 0) {
+                  const a = Math.random() * 6.283,
+                    s = 4 + Math.random() * 4;
+                  tv.x = Math.cos(a) * s;
+                  tv.y = Math.sin(a) * s * 0.6;
+                  tv.t = 0.5 + Math.random() * 1.1;
+                }
+                o.position.x += tv.x * dt;
+                o.position.y += tv.y * dt;
+                if (Math.abs(o.position.x) > 9) {
+                  tv.x *= -1;
+                  o.position.x = Math.sign(o.position.x) * 9;
+                }
+                if (Math.abs(o.position.y) > 5) {
+                  tv.y *= -1;
+                  o.position.y = Math.sign(o.position.y) * 5;
+                }
+                ray.setFromCamera(ctr, cam);
+                const on = ray.intersectObject(o).length > 0;
+                o.material = on && firing ? mOn : mHot;
+                if (on && firing) {
+                  onT += dt;
+                  score = Math.round(onT * 100);
+                }
+              }
+              if (left <= 0) {
+                left = 0;
+                stop(true);
+              }
+            }
+            $("t").textContent = Math.ceil(left);
+            $("s").textContent = score;
+            $("a").textContent =
+              (cm === "track"
+                ? Math.round((onT / Math.max(0.001, cfg.dur - left)) * 100)
+                : shots
+                  ? Math.round((hits / shots) * 100)
+                  : 0) + "%";
+          }
+          for (let i = fx.length - 1; i >= 0; i--) {
+            const f = fx[i];
+            f.t += dt;
+            f.o.scale.setScalar(1 + f.t * 6);
+            f.o.material.opacity = Math.max(0, 0.8 - f.t * 5);
+            if (f.t > 0.16) {
+              scene.remove(f.o);
+              fx.splice(i, 1);
+            }
+          }
+          renderer.render(scene, cam);
+        }
+        cam.position.set(0, 0, 0);
+        loop();
+      })();
+    </script>
+  </body>
+</html>
