@@ -1,90 +1,201 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
   <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="Fadil Home Meet - Gaming Room" />
+    <meta name="author" content="" />
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
 
-    <title>FADIL HOME MEET</title>
+    <title>FADIL HOME MEET - Gaming</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="assets/css/fontawesome.css">
-    <link rel="stylesheet" href="assets/css/templatemo-plot-listing.css">
-    <link rel="stylesheet" href="assets/css/animated.css">
-    <link rel="stylesheet" href="assets/css/owl.css">
-    <link rel="icon" href="assets/images/derby.jpg" type="image/x-icon">
-<!--
+    <!-- Existing CSS -->
+    <link rel="stylesheet" href="assets/css/fontawesome.css" />
+    <link rel="stylesheet" href="assets/css/templatemo-plot-listing.css" />
+    <link rel="stylesheet" href="assets/css/animated.css" />
+    <link rel="stylesheet" href="assets/css/owl.css" />
 
-TemplateMo 564 Plot Listing
+    <link rel="icon" href="assets/images/derby.jpg" type="image/x-icon" />
 
-https://templatemo.com/tm-564-plot-listing
+    <style>
+      * {
+        box-sizing: border-box;
+      }
 
--->
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        font-family: "Montserrat", sans-serif;
+        background: #080d19;
+      }
+
+      /* =========================
+       NAVBAR
+    ========================= */
+
+      .header-area {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 80px;
+
+        background: rgba(8, 13, 25, 0.98) !important;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        z-index: 99999 !important;
+      }
+
+      .main-nav {
+        min-height: 80px;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .nav {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        margin: 0 !important;
+        padding: 0 !important;
+        list-style: none;
+      }
+
+      .nav li {
+        list-style: none;
+        margin: 0 !important;
+      }
+
+      .nav li a {
+        display: block;
+        padding: 11px 18px;
+
+        color: #cbd5e1 !important;
+        text-decoration: none;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        border-radius: 30px;
+        white-space: nowrap;
+
+        transition: all 0.3s ease;
+      }
+
+      .nav li a:hover,
+      .nav li a.active {
+        background: #7c3aed !important;
+        color: #ffffff !important;
+        box-shadow: 0 5px 20px rgba(124, 58, 237, 0.35);
+      }
+
+      /* =========================
+       JITSI MEET
+    ========================= */
+
+      .meet-frame {
+        position: fixed;
+        top: 80px;
+        left: 0;
+
+        width: 100%;
+        height: calc(100vh - 80px);
+
+        border: none;
+        z-index: 1;
+      }
+
+      /* =========================
+       RESPONSIVE
+    ========================= */
+
+      @media (max-width: 576px) {
+        .header-area {
+          height: 115px;
+        }
+
+        .main-nav {
+          min-height: 115px;
+        }
+
+        .nav {
+          flex-wrap: wrap;
+          gap: 4px;
+          padding: 10px !important;
+        }
+
+        .nav li a {
+          padding: 8px 11px;
+          font-size: 10px;
+        }
+
+        .meet-frame {
+          top: 115px;
+          height: calc(100vh - 115px);
+        }
+      }
+    </style>
   </head>
 
-<body>
+  <body>
+    <!-- NAVBAR -->
+    <header class="header-area">
+      <div class="container">
+        <nav class="main-nav">
+          <ul class="nav">
+            <li>
+              <a href="index.html">Home</a>
+            </li>
 
-  <!-- ***** Preloader Start ***** -->
-  <div id="js-preloader" class="js-preloader">
-    <div class="preloader-inner">
-      <span class="dot"></span>
-      <div class="dots">
-        <span></span>
-        <span></span>
-        <span></span>
+            <li>
+              <a href="Gaming.html" class="active">Games</a>
+            </li>
+
+            <li>
+              <a href="Nugas.html">Learning</a>
+            </li>
+
+            <li>
+              <a href="Ngobrol.html">Deep Talk</a>
+            </li>
+          </ul>
+        </nav>
       </div>
-    </div>
-  </div>
-  <!-- ***** Preloader End ***** -->
+    </header>
 
-  <!-- ***** Header Area Start ***** -->
-  <header class="header-area header-sticky " data-wow-duration="0.75s" data-wow-delay="0s">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <nav class="main-nav" color="white">
-            <!-- ***** Logo Start ***** -->
-            <a href="index.html" style="display: inline-block;">
-              <img src="assets/images/fadil1.png" alt="icon" style="width: 150px; height: 85px; vertical-align: middle;">
-          </a>
-            <!-- ***** Logo End ***** -->
-            <!-- ***** Menu Start ***** -->
-            <ul class="nav">
-              <li><a href="index.html" class="active">Home</a></li>
-              <li><a href="Gaming.html "class="active">Games</a></li>
-              <li><a href="Nugas.html"class="active">Learning</a></li>
-              <li><a href="Ngobrol.html"class="active">Deep Talk</a></li> 
-           
-            </ul>        
-           
-          </nav>
-        </div>
-      </div>
-    </div>
-  </header>
-  <!-- ***** Header Area End ***** -->
+    <!-- JITSI MEET -->
+    <iframe
+      class="meet-frame"
+      allow="camera; microphone; fullscreen; display-capture; autoplay"
+      src="https://meet.jit.si/GamingFadil"
+    >
+    </iframe>
 
-  <iframe allow="camera; microphone; fullscreen; display-capture; autoplay" src="https://meet.jit.si/GamingFadil" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: 10px;"></iframe>
- 
-  
-<!-- Scripts -->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/owl-carousel.js"></script>
-<script src="assets/js/animation.js"></script>
-<script src="assets/js/imagesloaded.js"></script>
-<script src="assets/js/custom.js"></script>
-
-
-</body>
-
+    <!-- Scripts -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/owl-carousel.js"></script>
+    <script src="assets/js/animation.js"></script>
+    <script src="assets/js/imagesloaded.js"></script>
+    <script src="assets/js/custom.js"></script>
+  </body>
 </html>
