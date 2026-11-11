@@ -8,6 +8,7 @@
       name="description"
       content="Fadil Home Meet - Games, Learning, Deep Talk and Fun"
     />
+
     <title>FADIL HOME MEET</title>
 
     <!-- Google Fonts -->
@@ -45,20 +46,29 @@
         background: #080d19;
         color: #fff;
         overflow-x: hidden;
+
+        /* Agar konten tidak tertutup navbar fixed */
+        padding-top: 95px;
       }
 
-      /* NAVBAR */
+      /* =========================
+         NAVBAR
+      ========================= */
 
       .header-area {
-        background: rgba(8, 13, 25, 0.95);
+        background: rgba(8, 13, 25, 0.97) !important;
         backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+
         padding: 10px 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        position: absolute;
+
+        position: fixed !important;
         top: 0;
         left: 0;
         width: 100%;
-        z-index: 100;
+
+        z-index: 9999 !important;
       }
 
       .main-nav {
@@ -68,40 +78,62 @@
         min-height: 75px;
       }
 
+      .logo {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+      }
+
       .logo img {
         width: 140px;
         height: 75px;
         object-fit: contain;
+        display: block;
       }
 
       .nav {
-        display: flex;
+        display: flex !important;
         align-items: center;
+        justify-content: flex-end;
         gap: 8px;
-        margin: 0;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        list-style: none;
       }
 
       .nav li {
         list-style: none;
+        margin: 0 !important;
       }
 
       .nav li a {
+        display: block;
         color: #cbd5e1 !important;
         text-decoration: none;
+
         font-size: 12px;
         font-weight: 700;
+
         padding: 12px 15px;
         border-radius: 30px;
-        transition: 0.3s;
+
+        white-space: nowrap;
+        transition: all 0.3s ease;
       }
 
       .nav li a:hover,
       .nav li a.active {
-        background: #7c3aed;
-        color: white !important;
+        background: #7c3aed !important;
+        color: #ffffff !important;
+
+        box-shadow: 0 5px 20px rgba(124, 58, 237, 0.35);
       }
 
-      /* HERO SECTION */
+      /* =========================
+         HERO SECTION
+      ========================= */
 
       .main-banner {
         min-height: 720px;
@@ -109,7 +141,7 @@
         align-items: center;
         position: relative;
         overflow: hidden;
-        padding: 150px 0 90px;
+        padding: 90px 0;
 
         background:
           radial-gradient(
@@ -200,7 +232,9 @@
         box-shadow: 0 12px 35px rgba(124, 58, 237, 0.5);
       }
 
-      /* CATEGORY SECTION */
+      /* =========================
+         CATEGORY SECTION
+      ========================= */
 
       .category-section {
         padding: 75px 0 100px;
@@ -294,6 +328,8 @@
         font-size: 19px;
         font-weight: 800;
         margin-bottom: 12px;
+        position: relative;
+        z-index: 1;
       }
 
       .category-card p {
@@ -301,15 +337,21 @@
         font-size: 12px;
         line-height: 1.8;
         margin-bottom: 20px;
+        position: relative;
+        z-index: 1;
       }
 
       .category-link {
         color: #a78bfa;
         font-size: 12px;
         font-weight: 800;
+        position: relative;
+        z-index: 1;
       }
 
-      /* FOOTER */
+      /* =========================
+         FOOTER
+      ========================= */
 
       footer {
         padding: 25px 15px;
@@ -329,17 +371,26 @@
         font-weight: 800;
       }
 
-      /* RESPONSIVE */
+      /* =========================
+         RESPONSIVE TABLET
+      ========================= */
 
       @media (max-width: 991px) {
+        body {
+          padding-top: 155px;
+        }
+
         .main-nav {
           flex-direction: column;
-          gap: 10px;
+          justify-content: center;
+          gap: 5px;
+          padding: 5px 0;
         }
 
         .nav {
           justify-content: center;
           flex-wrap: wrap;
+          gap: 5px;
         }
 
         .nav li a {
@@ -348,28 +399,37 @@
         }
 
         .main-banner {
-          padding-top: 200px;
+          min-height: 620px;
+          padding: 70px 0;
         }
       }
 
+      /* =========================
+         RESPONSIVE MOBILE
+      ========================= */
+
       @media (max-width: 576px) {
+        body {
+          padding-top: 150px;
+        }
+
         .logo img {
           width: 115px;
-          height: 65px;
+          height: 60px;
         }
 
         .nav {
-          gap: 4px;
+          gap: 3px;
         }
 
         .nav li a {
           font-size: 9px;
-          padding: 8px 9px;
+          padding: 7px 8px;
         }
 
         .main-banner {
-          min-height: 620px;
-          padding: 190px 15px 70px;
+          min-height: 570px;
+          padding: 55px 15px 70px;
         }
 
         .hero-content h1 {
@@ -378,6 +438,12 @@
 
         .hero-content p {
           font-size: 12px;
+        }
+
+        .hero-label {
+          font-size: 9px;
+          letter-spacing: 1px;
+          padding: 8px 14px;
         }
 
         .section-heading h2 {
@@ -401,12 +467,12 @@
           </a>
 
           <ul class="nav">
-            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="index.html">Home</a></li>
             <li><a href="Gaming.html">Games</a></li>
             <li><a href="Nugas.html">Learning</a></li>
             <li><a href="Ngobrol.html">Deep Talk</a></li>
             <li><a href="fadil.html">Youtube</a></li>
-            <li><a href="aim.html">AIM Lab</a></li>
+            <li><a href="aim.html" class="active">AIM Lab</a></li>
           </ul>
         </nav>
       </div>
@@ -465,7 +531,7 @@
                 bersama teman!
               </p>
 
-              <span class="category-link"> PLAY NOW → </span>
+              <span class="category-link">PLAY NOW →</span>
             </a>
           </div>
 
@@ -483,7 +549,7 @@
                 yang menyenangkan.
               </p>
 
-              <span class="category-link"> START LEARNING → </span>
+              <span class="category-link">START LEARNING →</span>
             </a>
           </div>
 
@@ -501,7 +567,7 @@
                 membahas banyak hal.
               </p>
 
-              <span class="category-link"> LET'S TALK → </span>
+              <span class="category-link">LET'S TALK →</span>
             </a>
           </div>
         </div>
