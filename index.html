@@ -1,136 +1,520 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      name="description"
+      content="Fadil Home Meet - Games, Learning, Deep Talk and Fun"
     />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <title>FADIL HOME MEET</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
 
-    <title>FADIL HOME MEET</title>
-
-    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
-    <!-- Additional CSS Files -->
+    <!-- Existing CSS -->
     <link rel="stylesheet" href="assets/css/fontawesome.css" />
     <link rel="stylesheet" href="assets/css/templatemo-plot-listing.css" />
     <link rel="stylesheet" href="assets/css/animated.css" />
     <link rel="stylesheet" href="assets/css/owl.css" />
-    <link rel="icon" href="assets/images/derby.jpg" type="image/x-icon" />
-    <!--
 
-TemplateMo 564 Plot Listing
+    <link rel="icon" href="assets/images/derby.jpg" />
 
-https://templatemo.com/tm-564-plot-listing
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
--->
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: #080d19;
+        color: #fff;
+        overflow-x: hidden;
+      }
+
+      /* NAVBAR */
+
+      .header-area {
+        background: rgba(8, 13, 25, 0.95);
+        backdrop-filter: blur(15px);
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+      }
+
+      .main-nav {
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 75px;
+      }
+
+      .logo img {
+        width: 140px;
+        height: 75px;
+        object-fit: contain;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+      }
+
+      .nav li {
+        list-style: none;
+      }
+
+      .nav li a {
+        color: #cbd5e1 !important;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 12px 15px;
+        border-radius: 30px;
+        transition: 0.3s;
+      }
+
+      .nav li a:hover,
+      .nav li a.active {
+        background: #7c3aed;
+        color: white !important;
+      }
+
+      /* HERO SECTION */
+
+      .main-banner {
+        min-height: 720px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        padding: 150px 0 90px;
+
+        background:
+          radial-gradient(
+            circle at 15% 30%,
+            rgba(124, 58, 237, 0.22),
+            transparent 35%
+          ),
+          radial-gradient(
+            circle at 85% 70%,
+            rgba(6, 182, 212, 0.16),
+            transparent 35%
+          ),
+          linear-gradient(135deg, #080d19, #111a31 55%, #080d19);
+      }
+
+      .main-banner::before {
+        content: "";
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        border: 1px solid rgba(139, 92, 246, 0.15);
+        border-radius: 50%;
+        top: -150px;
+        right: -100px;
+        box-shadow:
+          0 0 0 50px rgba(139, 92, 246, 0.03),
+          0 0 0 100px rgba(139, 92, 246, 0.02);
+      }
+
+      .hero-content {
+        text-align: center;
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero-label {
+        display: inline-block;
+        padding: 10px 22px;
+        border: 1px solid rgba(167, 139, 250, 0.4);
+        background: rgba(124, 58, 237, 0.12);
+        border-radius: 30px;
+        color: #c4b5fd;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        margin-bottom: 25px;
+      }
+
+      .hero-content h1 {
+        font-size: clamp(35px, 6vw, 68px);
+        font-weight: 900;
+        line-height: 1.2;
+        margin-bottom: 20px;
+        color: white;
+      }
+
+      .hero-content h1 span {
+        background: linear-gradient(90deg, #a78bfa, #22d3ee);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero-content p {
+        max-width: 620px;
+        margin: 0 auto 35px;
+        color: #94a3b8;
+        font-size: 15px;
+        line-height: 1.9;
+      }
+
+      .hero-button {
+        display: inline-block;
+        padding: 15px 30px;
+        background: linear-gradient(90deg, #7c3aed, #6366f1);
+        color: white;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 800;
+        text-decoration: none;
+        transition: 0.3s;
+        box-shadow: 0 8px 30px rgba(124, 58, 237, 0.3);
+      }
+
+      .hero-button:hover {
+        color: white;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 35px rgba(124, 58, 237, 0.5);
+      }
+
+      /* CATEGORY SECTION */
+
+      .category-section {
+        padding: 75px 0 100px;
+        background: #080d19;
+        position: relative;
+      }
+
+      .section-heading {
+        text-align: center;
+        margin-bottom: 45px;
+      }
+
+      .section-heading small {
+        color: #a78bfa;
+        font-weight: 800;
+        letter-spacing: 3px;
+        font-size: 11px;
+      }
+
+      .section-heading h2 {
+        font-size: 32px;
+        font-weight: 900;
+        margin-top: 12px;
+        color: white;
+      }
+
+      .section-heading p {
+        color: #94a3b8;
+        font-size: 13px;
+        margin-top: 12px;
+      }
+
+      .category-card {
+        height: 100%;
+        display: block;
+        text-decoration: none;
+        padding: 35px 25px;
+        text-align: center;
+        background: linear-gradient(145deg, #151e33, #101729);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 20px;
+        transition: all 0.35s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .category-card::before {
+        content: "";
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        background: rgba(124, 58, 237, 0.12);
+        border-radius: 50%;
+        top: -90px;
+        right: -60px;
+        transition: 0.4s;
+      }
+
+      .category-card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(167, 139, 250, 0.6);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .category-card:hover::before {
+        transform: scale(2);
+      }
+
+      .category-icon {
+        width: 85px;
+        height: 85px;
+        background: rgba(124, 58, 237, 0.15);
+        border: 1px solid rgba(167, 139, 250, 0.2);
+        border-radius: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 25px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .category-icon img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+      }
+
+      .category-card h3 {
+        color: white;
+        font-size: 19px;
+        font-weight: 800;
+        margin-bottom: 12px;
+      }
+
+      .category-card p {
+        color: #94a3b8;
+        font-size: 12px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .category-link {
+        color: #a78bfa;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      /* FOOTER */
+
+      footer {
+        padding: 25px 15px;
+        text-align: center;
+        background: #0c1425;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      footer p {
+        color: #64748b;
+        font-size: 11px;
+        margin: 0;
+      }
+
+      footer span {
+        color: #a78bfa;
+        font-weight: 800;
+      }
+
+      /* RESPONSIVE */
+
+      @media (max-width: 991px) {
+        .main-nav {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .nav {
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .nav li a {
+          padding: 9px 11px;
+          font-size: 10px;
+        }
+
+        .main-banner {
+          padding-top: 200px;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .logo img {
+          width: 115px;
+          height: 65px;
+        }
+
+        .nav {
+          gap: 4px;
+        }
+
+        .nav li a {
+          font-size: 9px;
+          padding: 8px 9px;
+        }
+
+        .main-banner {
+          min-height: 620px;
+          padding: 190px 15px 70px;
+        }
+
+        .hero-content h1 {
+          font-size: 36px;
+        }
+
+        .hero-content p {
+          font-size: 12px;
+        }
+
+        .section-heading h2 {
+          font-size: 25px;
+        }
+
+        .category-card {
+          margin-bottom: 15px;
+        }
+      }
+    </style>
   </head>
 
   <body>
-    <!-- ***** Preloader Start ***** -->
-    <div id="js-preloader" class="js-preloader">
-      <div class="preloader-inner">
-        <span class="dot"></span>
-        <div class="dots">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-    </div>
-    <!-- ***** Preloader End ***** -->
-
-    <!-- ***** Header Area Start ***** -->
-    <header
-      class="header-area header-sticky"
-      data-wow-duration="0.75s"
-      data-wow-delay="0s"
-    >
+    <!-- NAVBAR -->
+    <header class="header-area">
       <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <nav class="main-nav" color="white">
-              <!-- ***** Logo Start ***** -->
-              <a href="index.html" style="display: inline-block">
-                <img
-                  src="assets/images/fadil1.png"
-                  alt="icon"
-                  style="width: 150px; height: 85px; vertical-align: middle"
-                />
-              </a>
-              <!-- ***** Logo End ***** -->
-              <!-- ***** Menu Start ***** -->
-              <ul class="nav">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="Gaming.html " class="active">Games</a></li>
-                <li><a href="Nugas.html" class="active">Learning</a></li>
-                <li><a href="Ngobrol.html" class="active">Deep Talk</a></li>
-                <li><a href="fadil.html" class="active">Youtube</a></li>
-                <li><a href="aim.html" class="active">AIM Lab</a></li>
-              </ul>
-            </nav>
-          </div>
-        </div>
+        <nav class="main-nav">
+          <a href="index.html" class="logo">
+            <img src="assets/images/fadil1.png" alt="Fadil Home Meet Logo" />
+          </a>
+
+          <ul class="nav">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="Gaming.html">Games</a></li>
+            <li><a href="Nugas.html">Learning</a></li>
+            <li><a href="Ngobrol.html">Deep Talk</a></li>
+            <li><a href="fadil.html">Youtube</a></li>
+            <li><a href="aim.html">AIM Lab</a></li>
+          </ul>
+        </nav>
       </div>
     </header>
-    <!-- ***** Header Area End ***** -->
 
-    <div class="main-banner">
+    <!-- HERO -->
+    <section class="main-banner">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <div class="top-text header-text">
-              <h6>Fadil Games Meet</h6>
-              <h2>Jangan Toxic BAJINGAN!!</h2>
-            </div>
-          </div>
+            <div class="hero-content">
+              <div class="hero-label">✦ WELCOME TO FADIL HOME MEET ✦</div>
 
-          <div class="col-lg-10 offset-lg-1">
-            <ul class="categories">
-              <li>
-                <a href="Gaming.html"
-                  ><span class="icon"
-                    ><img src="assets/images/console.png"
-                  /></span>
-                  Games</a
-                >
-              </li>
-              <li>
-                <a href="Nugas.html"
-                  ><span class="icon"
-                    ><img src="assets/images/talking.png" alt="Vehicle"
-                  /></span>
-                  Learning</a
-                >
-              </li>
-              <li>
-                <a href="Ngobrol.html"
-                  ><span class="icon"
-                    ><img src="assets/images/brain.png"
-                  /></span>
-                  Deep Talk &amp; Gibah</a
-                >
-              </li>
-            </ul>
+              <h1>Fadil Games <span>Meet</span></h1>
+
+              <h1 style="font-size: clamp(25px, 4vw, 42px)">
+                Jangan Toxic <span>BAJINGAN!!</span>
+              </h1>
+
+              <p>
+                Tempat berkumpul, bermain game, belajar, berbagi cerita, dan
+                menikmati waktu bersama. Let's have fun and make unforgettable
+                memories!
+              </p>
+
+              <a href="#categories" class="hero-button">
+                EXPLORE NOW &nbsp; →
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Scripts -->
+    <!-- CATEGORIES -->
+    <section class="category-section" id="categories">
+      <div class="container">
+        <div class="section-heading">
+          <small>EXPLORE OUR WORLD</small>
+          <h2>What Do You Want To Do?</h2>
+          <p>Pilih aktivitas favoritmu dan mulai petualanganmu!</p>
+        </div>
+
+        <div class="row">
+          <!-- GAMES -->
+          <div class="col-lg-4 col-md-6 mb-4">
+            <a href="Gaming.html" class="category-card">
+              <div class="category-icon">
+                <img src="assets/images/console.png" alt="Games" />
+              </div>
+
+              <h3>Games</h3>
+
+              <p>
+                Saatnya bermain dan bersenang-senang. Nikmati berbagai game seru
+                bersama teman!
+              </p>
+
+              <span class="category-link"> PLAY NOW → </span>
+            </a>
+          </div>
+
+          <!-- LEARNING -->
+          <div class="col-lg-4 col-md-6 mb-4">
+            <a href="Nugas.html" class="category-card">
+              <div class="category-icon">
+                <img src="assets/images/talking.png" alt="Learning" />
+              </div>
+
+              <h3>Learning</h3>
+
+              <p>
+                Belajar, mengerjakan tugas, dan menambah wawasan dengan cara
+                yang menyenangkan.
+              </p>
+
+              <span class="category-link"> START LEARNING → </span>
+            </a>
+          </div>
+
+          <!-- DEEP TALK -->
+          <div class="col-lg-4 col-md-6 mb-4">
+            <a href="Ngobrol.html" class="category-card">
+              <div class="category-icon">
+                <img src="assets/images/brain.png" alt="Deep Talk" />
+              </div>
+
+              <h3>Deep Talk & Gibah</h3>
+
+              <p>
+                Tempat berbagi cerita, bertukar pikiran, ngobrol santai, dan
+                membahas banyak hal.
+              </p>
+
+              <span class="category-link"> LET'S TALK → </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>© 2026 <span>FADIL HOME MEET</span>. Made with ❤️ for everyone.</p>
+    </footer>
+
+    <!-- SCRIPTS -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/owl-carousel.js"></script>
-    <script src="assets/js/animation.js"></script>
-    <script src="assets/js/imagesloaded.js"></script>
-    <script src="assets/js/custom.js"></script>
   </body>
 </html>
